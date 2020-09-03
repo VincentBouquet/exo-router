@@ -1,26 +1,41 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Axios from "axios";
+import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [characterList, setCharacterList] = useState([])
+
+    useEffect(loadCharacterList, [])
+
+    function loadCharacterList() {
+        Axios.get("https://swapi.dev/api/people/")
+            .then(function (response) {
+                setCharacterList(response.data.results)
+            })
+    }
+
+    function getId({url}){
+        return url.split("/")[5]
+    }
+
+    return (
+        <div className="App">
+            <Router>
+                <nav>
+                    <ul>
+                        {
+                            characterList.map(character => (
+                                <li>
+                                    {character.name}
+                                </li>
+                            ))}
+                    </ul>
+                </nav>
+            </Router>
+        </div>
+    );
 }
 
 export default App;
