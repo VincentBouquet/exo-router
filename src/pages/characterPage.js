@@ -1,5 +1,9 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import Axios from "axios";
 
-function characterPage(){
+function characterPage(character){
+
 
 }
+
+export default characterPage()
